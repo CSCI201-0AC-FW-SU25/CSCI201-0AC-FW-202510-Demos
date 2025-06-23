@@ -1,11 +1,15 @@
 #include <iostream>
 #include <limits>
+#include <cctype>
 #include "clock.h"
 
 clockType *makeClock();
 void resetStream();
 
-// lecture activity fill in validation loops in make clock + tbd
+// lecture activity fill in validation loops in make clock +
+// pick any class from a previous demo or homework
+// make a dynamic array of pointers in the main using that class.
+// dynamically allocate each pointer in the array to a single object.
 
 int main()
 {
@@ -19,9 +23,25 @@ int main()
     int list[10];
     std::cout << list << std::endl;
     clockType c(timeType::TWENTYFOUR);
-    clockType *clockPtr = nullptr;
-    int type;
-    clockPtr = makeClock();
+    clockType **clockPtrs = nullptr;
+    int numClocks = 0;
+    clockPtrs = new clockType *[numClocks];
+    char cont = 'Y';
+    while (cont == 'Y')
+    {
+        numClocks++;
+        clockType **tempClocks = clockPtrs;
+        clockPtrs = new clockType *[numClocks];
+        for (int i = 0; i < numClocks - 1; i++)
+        {
+            clockPtrs[i] = tempClocks[i];
+        }
+        clockPtrs[numClocks - 1] = makeClock();
+        std::cout << "Do you want to add another clock? ";
+        std::cin >> cont;
+        cont = toupper(cont);
+        delete[] tempClocks;
+    }
     /* std::cout << "Do you want a 12 or 24 hour clock? ";
     std::cin >> type;
     // input validation loop goes here
@@ -33,14 +53,18 @@ int main()
     {
         clockPtr = new clockType(timeType::TWENTYFOUR);
     } */
-    std::cout << clockPtr->printTime() << std::endl;
+    std::cout << clockPtrs[0]->printTime() << std::endl;
     // clockPtr->getHour();
     // clockPtr = &c;
-    clockPtr->getHour();
-    clockPtr->getMinute();
+    clockPtrs[0]->getHour();
+    clockPtrs[0]->getMinute();
 
     delete[] p;
-    delete clockPtr;
+    for (int i = 0; i < numClocks; i++)
+    {
+        delete clockPtrs[i];
+    }
+    delete[] clockPtrs;
     return 0;
 }
 
@@ -100,16 +124,8 @@ clockType *makeClock()
         std::cout << "Is it 1. AM or 2. PM? ";
         std::cin >> amPM;
         // validation loop input failure or not 1 and not 2
-        partType part;
-        if (amPM == 1)
-        {
-            part = partType::AM;
-        }
-        else
-        {
-            part = partType::PM;
-        }
-        clockPtr = new clockType(timeType::TWELVE, hour, minute, second, part);
+
+        clockPtr = new clockType(timeType::TWELVE, hour, minute, second, parts[amPM - 1]);
     }
     else
     {
