@@ -5,16 +5,18 @@
 #include "clock.h"
 #include "movieTimes.h"
 
+void addTimeToMovie(MovieTimes &theMovie);
+// lecture activity change addTimeToMovie to use makeClock to make a new clock to send to the move to add. Make sure you clean up the memory from makeClock after you add the time to the movie.
 int main()
 {
 
-    MovieTimes elio("Elio", 99, "PG");
-    {
-        MovieTimes dragon("How to Train Your Dragon", 125, "PG");
-        dragon.enterTimes();
-        std::cout << dragon.tostring() << std::endl;
-        elio = dragon;
-    }
+    MovieTimes dragon("How to Train Your Dragon", 125, "PG");
+
+    dragon.enterTimes();
+    MovieTimes elio = dragon;
+
+    addTimeToMovie(dragon);
+    std::cout << dragon.tostring() << std::endl;
     std::cout << elio.tostring() << std::endl;
     return 0;
 }
@@ -95,4 +97,10 @@ bool isInRange(int num, int low, int high)
 {
 
     return low <= num && num <= high;
+}
+
+void addTimeToMovie(MovieTimes &theMovie)
+{
+    clockType c(TWELVE);
+    theMovie.addTime(c);
 }

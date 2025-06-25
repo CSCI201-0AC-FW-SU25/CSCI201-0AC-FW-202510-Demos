@@ -9,11 +9,13 @@ class MovieTimes
 {
 public:
     MovieTimes(std::string title, int runtime, std::string rating);
+    MovieTimes(const MovieTimes &otherObject);
     void enterTimes();
     std::string tostring();
     std::string getTitle();
     int getRuntime();
     std::string getRating();
+    void addTime(clockType timeAdd);
     ~MovieTimes();
 
 private:
@@ -22,6 +24,7 @@ private:
     std::string title;
     int runtime;
     std::string rating;
+    void copyMovie(const MovieTimes &otherMovie);
 };
 
 clockType *makeClock();
