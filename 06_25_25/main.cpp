@@ -14,6 +14,8 @@ int main()
 {
     int *p = nullptr;
     int x = 7;
+    int y = x;
+    x = 10;
     // p = &x;
     p = new int[x];
     p[0] = 9;
