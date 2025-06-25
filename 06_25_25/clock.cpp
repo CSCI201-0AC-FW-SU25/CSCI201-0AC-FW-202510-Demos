@@ -31,8 +31,8 @@ std::string clockType::printTime() const
     {
         out << " " << partToStr[static_cast<int>(partOfDay)];
     }
-    out << std::endl
-        << clockType::formatToStr[format];
+    /*  out << std::endl
+         << clockType::formatToStr[format]; */
 
     return out.str();
 }

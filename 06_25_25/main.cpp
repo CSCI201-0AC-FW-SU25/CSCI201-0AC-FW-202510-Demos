@@ -3,58 +3,19 @@
 #include <cctype>
 #include <string>
 #include "clock.h"
-
-clockType *makeClock();
-void resetStream();
-int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int valid1, int valid2);
-bool isAorB(int num, int a, int b);
-bool isInRange(int num, int low, int high);
+#include "movieTimes.h"
 
 int main()
 {
-    int *p = nullptr;
-    int x = 7;
-    int y = x;
-    x = 10;
-    // p = &x;
-    p = new int[x];
-    p[0] = 9;
-    p[6] = 10;
-    int distance = p[6] - p[0];
-    int list[10];
-    std::cout << list << std::endl;
-    clockType c(timeType::TWENTYFOUR);
-    clockType **clockPtrs = nullptr;
-    int numClocks = 0;
-    clockPtrs = new clockType *[numClocks];
-    char cont = 'Y';
-    while (cont == 'Y')
+
+    MovieTimes elio("Elio", 99, "PG");
     {
-        numClocks++;
-        clockType **tempClocks = clockPtrs;
-        clockPtrs = new clockType *[numClocks];
-        for (int i = 0; i < numClocks - 1; i++)
-        {
-            clockPtrs[i] = tempClocks[i];
-        }
-        clockPtrs[numClocks - 1] = makeClock();
-        std::cout << "Do you want to add another clock? ";
-        std::cin >> cont;
-        cont = toupper(cont);
-        delete[] tempClocks;
+        MovieTimes dragon("How to Train Your Dragon", 125, "PG");
+        dragon.enterTimes();
+        std::cout << dragon.tostring() << std::endl;
+        elio = dragon;
     }
-
-    std::cout << clockPtrs[0]->printTime() << std::endl;
-
-    clockPtrs[0]->getHour();
-    clockPtrs[0]->getMinute();
-
-    delete[] p;
-    for (int i = 0; i < numClocks; i++)
-    {
-        delete clockPtrs[i];
-    }
-    delete[] clockPtrs;
+    std::cout << elio.tostring() << std::endl;
     return 0;
 }
 
