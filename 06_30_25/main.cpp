@@ -6,13 +6,30 @@
 clockType *makeClock();
 void resetStream();
 void clockTick(clockType &clockToTick);
+bool validPositiveInt(int num);
+int inputPositiveInt(std::string prompt, std::string err);
+bool codeGradeLoopFix();
+
+// lecture activity fill in input.txt with input that will create 20 clocks. Randomize between 12 and 24 hour clocks and randomize times.
 
 int main()
 {
-    twelveHrClock clock12(15, 0, 21, partType::PM);
-    clockTick(clock12);
-    clockType c;
-    std::cout << clock12.clockType::toString() << std::endl;
+    clockType **c = nullptr;
+    int numClocks = 0;
+    numClocks = inputPositiveInt("How many clocks do you want to make? ", "Please enter a positive number of clocks!");
+    if (numClocks == -999)
+    {
+        return 0;
+    }
+    c = new clockType *[numClocks];
+    for (int i = 0; i < numClocks; i++)
+    {
+        c[i] = makeClock();
+        if (c[i] == nullptr)
+        {
+            return 0;
+        }
+    }
 }
 
 clockType *makeClock()
@@ -24,6 +41,10 @@ clockType *makeClock()
     // input validation loop goes here
     while (!std::cin || (type != 12 && type != 24))
     {
+        if (codeGradeLoopFix())
+        {
+            return nullptr;
+        }
         if (!std::cin)
         {
             resetStream();
@@ -41,6 +62,10 @@ clockType *makeClock()
     // input validation loop
     while (!std::cin || (type == 12 && (hour < 1 || hour > 12)) || (type == 24 && (hour < 0 || hour > 23)))
     {
+        if (codeGradeLoopFix())
+        {
+            return nullptr;
+        }
         if (!std::cin)
         {
             resetStream();
@@ -72,11 +97,11 @@ clockType *makeClock()
         std::cin >> amPM;
         // validation loop input failure or not 1 and not 2
 
-        // clockPtr = new clockType(timeType::TWELVE, hour, minute, second, parts[amPM - 1]);
+        clockPtr = new twelveHrClock(hour, minute, second, parts[amPM - 1]);
     }
     else
     {
-        // clockPtr = new clockType(timeType::TWENTYFOUR, hour, minute, second);
+        clockPtr = new twentyFourHrClock(hour, minute, second);
     }
     return clockPtr;
 }
@@ -92,4 +117,41 @@ void clockTick(clockType &clockToTick)
 {
     clockToTick.incrementHours();
     std::cout << clockToTick.toString() << std::endl;
+}
+
+bool validPositiveInt(int num)
+{
+    return num > 0;
+}
+
+int inputPositiveInt(std::string prompt, std::string err)
+{
+    int input;
+    std::cout << prompt;
+    std::cin >> input;
+    while (!std::cin || !validPositiveInt(input))
+    {
+        if (codeGradeLoopFix())
+        {
+            return -999;
+        }
+        if (!std::cin)
+        {
+            resetStream();
+        }
+        std::cout << err << std::endl;
+        std::cout << prompt;
+        std::cin >> input;
+    }
+    return input;
+}
+
+bool codeGradeLoopFix()
+{
+    if (std::cin.eof())
+    {
+        std::cout << "Infinite loop detected. Out of input ending program." << std::endl;
+        return true;
+    }
+    return false;
 }

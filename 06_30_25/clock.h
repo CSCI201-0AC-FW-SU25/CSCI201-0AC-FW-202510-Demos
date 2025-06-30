@@ -20,19 +20,14 @@ const std::string partToStr[2] = {"AM", "PM"};
 class clockType
 {
 public:
-    clockType(int h = 0, int m = 0, int s = 0);
-    void setTime(int hour, int minute, int second);
+    // clockType(int h = 0, int m = 0, int s = 0);
+    virtual void setTime(int hour, int minute, int second) = 0;
     void getTime(int &hour, int &minute, int &second) const;
-    virtual bool validHr() const = 0;
-    virtual void invalidHr() = 0;
-
     bool validMin() const;
     bool validSec() const;
     virtual std::string toString() const;
     void incrementSeconds();
     void incrementMinutes();
-    virtual void incrementHours() = 0;
-    virtual void setHour(int hour) = 0;
     void setMinute(int minute);
     void setSecond(int second);
     void setPartOfDay(partType p);
@@ -40,6 +35,10 @@ public:
     int getMinute() const;
     int getSecond() const;
     bool equalTime(const clockType &) const;
+    virtual bool validHr() const = 0;
+    virtual void invalidHr() = 0;
+    virtual void incrementHours() = 0;
+    virtual void setHour(int hour) = 0;
     static timeType formats[2];
     static std::string formatToStr[2];
 
@@ -47,6 +46,16 @@ protected:
     int hr;
     int min;
     int sec;
+};
+class twentyFourHrClock : public clockType
+{
+public:
+    twentyFourHrClock(int h = 0, int m = 0, int s = 0);
+    bool validHr() const;
+    void invalidHr();
+    void incrementHours();
+    void setHour(int hour);
+    void setTime(int h, int m, int s);
 };
 
 class twelveHrClock : public clockType
@@ -63,6 +72,7 @@ public:
     partType getPart() const { return partOfDay; };
     // void setPartOfDay(std::string);
     void setTime(int h, int m, int s, partType p);
+    void setTime(int h, int m, int s);
 
 private:
     partType partOfDay;

@@ -3,14 +3,12 @@
 timeType clockType::formats[2] = {TWELVE, TWENTYFOUR};
 std::string clockType::formatToStr[2] = {"12 hour clock", "24 hour clock"};
 
-clockType::clockType(int h, int m, int s)
+twentyFourHrClock::twentyFourHrClock(int h, int m, int s)
 {
-
     setTime(h, m, s);
 }
-void clockType::setTime(int hour, int minute, int second)
+void twentyFourHrClock::setTime(int hour, int minute, int second)
 {
-
     setHour(hour);
     setMinute(minute);
     setSecond(second);
@@ -21,16 +19,19 @@ void clockType::getTime(int &hour, int &minute, int &second) const
     minute = min;
     second = sec;
 }
+bool clockType::validMin() const
+{
+    return min >= 0 && min <= 59;
+}
+bool clockType::validSec() const
+{
+    return sec >= 0 && sec <= 59;
+}
 std::string clockType::toString() const
 {
     std::ostringstream out;
     out << std::setfill('0');
     out << std::setw(2) << hr << ":" << std::setw(2) << min << ":" << std::setw(2) << sec;
-    /* if (format == TWELVE)
-    {
-        out << " " << partToStr[static_cast<int>(partOfDay)];
-    } */
-
     return out.str();
 }
 void clockType::incrementSeconds()
@@ -51,75 +52,50 @@ void clockType::incrementMinutes()
         incrementHours();
     }
 }
-void clockType::incrementHours()
+void twentyFourHrClock::incrementHours()
 {
     hr++;
     if (hr > 23)
     {
         hr = 0;
     }
-    /* else if (format == TWELVE)
-    {
-        if (hr == 12)
-        {
-            if (partOfDay == partType::AM)
-            {
-                partOfDay = partType::PM;
-            }
-            else
-            {
-                partOfDay = partType::AM;
-            }
-        }
-        if (hr > 12)
-        {
-            hr = 1;
-        }
-    } */
 }
-void clockType::setHour(int hour)
+void twentyFourHrClock::setHour(int hour)
 {
-    /* if (format == TWELVE)
+
+    hr = hour;
+    if (!validHr())
     {
-        if (hour >= 1 && hour <= 12)
-        {
-            hr = hour;
-        }
-        else
-        {
-            hr = 12;
-        }
+        invalidHr();
     }
-    else
-    { */
-    if (hour >= 0 && hour <= 23)
-    {
-        hr = hour;
-    }
-    else
-    {
-        hr = 0;
-    }
-    //}
+}
+
+bool twentyFourHrClock::validHr() const
+{
+    return hr >= 0 && hr <= 23;
+}
+void twentyFourHrClock::invalidHr()
+{
+    std::cout << "Hours must be between 0 and 23." << std::endl;
+    std::cout << "Defaulting to 0." << std::endl;
+    hr = 0;
 }
 void clockType::setMinute(int minute)
 {
-    if (minute >= 0 && minute <= 59)
-    {
-        min = minute;
-    }
-    else
+
+    min = minute;
+    if (!validMin())
     {
         min = 0;
     }
 }
+
 void clockType::setSecond(int second)
 {
-    if (second >= 0 && second <= 59)
-    {
-        sec = second;
-    }
-    else
+
+    sec = second;
+
+    if (!validSec())
     {
         sec = 0;
     }
@@ -165,7 +141,7 @@ bool clockType::equalTime(const clockType &otherClock) const
     return standardHour == othStandardHour && min == otherClock.min && sec == otherClock.sec;
 }
 
-twelveHrClock::twelveHrClock(int h, int m, int s, partType part) : clockType(h, m, s)
+twelveHrClock::twelveHrClock(int h, int m, int s, partType part)
 {
     setTime(h, m, s, part);
 }
@@ -230,4 +206,11 @@ std::string twelveHrClock::toString() const
     out << clockType::toString();
     out << " " << partToStr[static_cast<int>(partOfDay)];
     return out.str();
+}
+
+void twelveHrClock::setTime(int hour, int minute, int second)
+{
+    setHour(hour);
+    setMinute(minute);
+    setSecond(second);
 }
