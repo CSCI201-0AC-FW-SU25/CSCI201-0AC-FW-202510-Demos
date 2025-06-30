@@ -167,12 +167,19 @@ bool clockType::equalTime(const clockType &otherClock) const
 
 twelveHrClock::twelveHrClock(int h, int m, int s, partType part) : clockType(h, m, s)
 {
-    setPartOfDay(part);
+    setTime(h, m, s, part);
 }
 
 bool twelveHrClock::validHr() const
 {
     return hr >= 1 && hr <= 12;
+}
+
+void twelveHrClock::invalidHr()
+{
+    std::cout << "Hours must be between 1 and 12." << std::endl;
+    std::cout << "Defaulting to 12." << std::endl;
+    hr = 12;
 }
 
 void twelveHrClock::setPartOfDay(partType p)
@@ -182,13 +189,11 @@ void twelveHrClock::setPartOfDay(partType p)
 
 void twelveHrClock::setHour(int hour)
 {
-    if (hour >= 1 && hour <= 12)
+
+    hr = hour;
+    if (!validHr())
     {
-        hr = hour;
-    }
-    else
-    {
-        hr = 12;
+        invalidHr();
     }
 }
 
@@ -210,4 +215,19 @@ void twelveHrClock::incrementHours()
     {
         hr = 1;
     }
+}
+void twelveHrClock::setTime(int h, int m, int s, partType p)
+{
+    setHour(h);
+    setMinute(m);
+    setSecond(s);
+    setPartOfDay(p);
+}
+
+std::string twelveHrClock::toString() const
+{
+    std::ostringstream out;
+    out << clockType::toString();
+    out << " " << partToStr[static_cast<int>(partOfDay)];
+    return out.str();
 }

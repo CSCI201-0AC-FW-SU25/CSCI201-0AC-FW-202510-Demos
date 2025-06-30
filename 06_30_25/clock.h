@@ -2,6 +2,7 @@
 #define CLOCK_H
 #include <string>
 #include <sstream>
+#include <iostream>
 #include <iomanip>
 
 enum class partType
@@ -22,14 +23,16 @@ public:
     clockType(int h = 0, int m = 0, int s = 0);
     void setTime(int hour, int minute, int second);
     void getTime(int &hour, int &minute, int &second) const;
-    bool validHr() const;
+    virtual bool validHr() const = 0;
+    virtual void invalidHr() = 0;
+
     bool validMin() const;
     bool validSec() const;
-    std::string toString() const;
+    virtual std::string toString() const;
     void incrementSeconds();
     void incrementMinutes();
-    virtual void incrementHours();
-    void setHour(int hour);
+    virtual void incrementHours() = 0;
+    virtual void setHour(int hour) = 0;
     void setMinute(int minute);
     void setSecond(int second);
     void setPartOfDay(partType p);
@@ -51,13 +54,14 @@ class twelveHrClock : public clockType
 public:
     twelveHrClock(int h, int m, int s, partType part);
     bool validHr() const;
+    void invalidHr();
     void setPartOfDay(partType part);
     std::string toString() const;
     void setHour(int h);
     void incrementHours();
-    std::string getPartOfDay();
+    // std::string getPartOfDay();
     partType getPart() const { return partOfDay; };
-    void setPartOfDay(std::string);
+    // void setPartOfDay(std::string);
     void setTime(int h, int m, int s, partType p);
 
 private:

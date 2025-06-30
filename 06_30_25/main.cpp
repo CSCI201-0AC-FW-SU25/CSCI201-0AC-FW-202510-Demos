@@ -9,8 +9,10 @@ void clockTick(clockType &clockToTick);
 
 int main()
 {
-    twelveHrClock clock12(12, 0, 21, partType::PM);
+    twelveHrClock clock12(15, 0, 21, partType::PM);
     clockTick(clock12);
+    clockType c;
+    std::cout << clock12.clockType::toString() << std::endl;
 }
 
 clockType *makeClock()
@@ -89,4 +91,5 @@ void resetStream()
 void clockTick(clockType &clockToTick)
 {
     clockToTick.incrementHours();
+    std::cout << clockToTick.toString() << std::endl;
 }
