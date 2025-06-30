@@ -30,6 +30,16 @@ int main()
             return 0;
         }
     }
+    std::cout << "All of the clocks: " << std::endl;
+    for (int i = 0; i < numClocks; i++)
+    {
+        std::cout << c[i]->toString() << std::endl;
+        delete c[i];
+        c[i] = nullptr;
+    }
+    delete[] c;
+    c = nullptr;
+    return 0;
 }
 
 clockType *makeClock()
@@ -38,6 +48,7 @@ clockType *makeClock()
     int type;
     std::cout << "Do you want a 12 or 24 hour clock? ";
     std::cin >> type;
+    std::cout << std::endl;
     // input validation loop goes here
     while (!std::cin || (type != 12 && type != 24))
     {
@@ -55,10 +66,12 @@ clockType *makeClock()
         }
         std::cout << "Do you want a 12 or 24 hour clock? ";
         std::cin >> type;
+        std::cout << std::endl;
     }
     int hour;
     std::cout << "Enter the clock's hour: ";
     std::cin >> hour;
+    std::cout << std::endl;
     // input validation loop
     while (!std::cin || (type == 12 && (hour < 1 || hour > 12)) || (type == 24 && (hour < 0 || hour > 23)))
     {
@@ -80,21 +93,25 @@ clockType *makeClock()
         }
         std::cout << "Enter the clock's hour: ";
         std::cin >> hour;
+        std::cout << std::endl;
     }
     int minute;
     std::cout << "Enter the clock's minutes: ";
     std::cin >> minute;
+    std::cout << std::endl;
     // validation loop input failure and 0 - 59
 
     int second;
     std::cout << "Enter the clock's seconds: ";
     std::cin >> second;
+    std::cout << std::endl;
     // validation loop same as minutes
     if (type == 12)
     {
         int amPM;
         std::cout << "Is it 1. AM or 2. PM? ";
         std::cin >> amPM;
+        std::cout << std::endl;
         // validation loop input failure or not 1 and not 2
 
         clockPtr = new twelveHrClock(hour, minute, second, parts[amPM - 1]);
