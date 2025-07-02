@@ -75,6 +75,7 @@ public:
     void setTime(int h, int m, int s, partType p);
     void setTime(int h, int m, int s);
     friend void myFunc(const twelveHrClock &theClock);
+    twelveHrClock operator+(int rightHandSide) const;
 
 private:
     partType partOfDay;

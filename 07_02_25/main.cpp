@@ -14,31 +14,9 @@ bool codeGradeLoopFix();
 
 int main()
 {
-    clockType **c = nullptr;
-    int numClocks = 0;
-    numClocks = inputPositiveInt("How many clocks do you want to make? ", "Please enter a positive number of clocks!");
-    if (numClocks == -999)
-    {
-        return 0;
-    }
-    c = new clockType *[numClocks];
-    for (int i = 0; i < numClocks; i++)
-    {
-        c[i] = makeClock();
-        if (c[i] == nullptr)
-        {
-            return 0;
-        }
-    }
-    std::cout << "All of the clocks: " << std::endl;
-    for (int i = 0; i < numClocks; i++)
-    {
-        std::cout << c[i]->toString() << std::endl;
-        delete c[i];
-        c[i] = nullptr;
-    }
-    delete[] c;
-    c = nullptr;
+    twelveHrClock clock(12, 59, 59, partType::PM);
+    twelveHrClock clock2 = clock + 1;
+
     return 0;
 }
 

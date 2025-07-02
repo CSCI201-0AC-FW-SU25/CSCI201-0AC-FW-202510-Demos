@@ -224,3 +224,13 @@ bool twentyFourHrClock::operator==(const twentyFourHrClock &rightHandClock)
 {
     return this->hr == rightHandClock.hr && this->min == rightHandClock.min && this->sec == rightHandClock.sec;
 }
+
+twelveHrClock twelveHrClock::operator+(int secondsToAdd) const
+{
+    twelveHrClock tempClock = *this;
+    for (int i = 0; i < secondsToAdd; i++)
+    {
+        tempClock.incrementSeconds();
+    }
+    return tempClock;
+}
