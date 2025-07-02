@@ -45,7 +45,7 @@ std::string MovieTimes::tostring()
     out << "| " << std::setw(40) << this->title << " | " << std::setw(5) << this->rating << " | " << std::setw(3) << this->runtime << " mins | ";
     for (int i = 0; i < numTimes; i++)
     {
-        out << times[i]->printTime() << " ";
+        // out << times[i]->printTime() << " ";
     }
     return out.str();
 }
@@ -92,11 +92,11 @@ void MovieTimes::copyMovie(const MovieTimes &otherMovie)
     for (int i = 0; i < numTimes; i++)
     {
         // this->times[i]= otherMovie.times[i]; don't do this shallow copy
-        this->times[i] = new clockType(*otherMovie.times[i]);
+        this->times[i] = otherMovie.times[i]->makeCopy();
     }
 }
 
-void MovieTimes::addTime(clockType timeAdd)
+void MovieTimes::addTime(clockType *timeAdd)
 {
     numTimes++;
     clockType **temp = times;
@@ -105,8 +105,17 @@ void MovieTimes::addTime(clockType timeAdd)
     {
         times[i] = temp[i];
     }
-    times[numTimes - 1] = new clockType(timeAdd);
+    times[numTimes - 1] = timeAdd->makeCopy();
     delete[] temp;
+}
+
+const MovieTimes &MovieTimes::operator=(const MovieTimes &rightHandSide)
+{
+    if (this != &rightHandSide)
+    {
+        copyMovie(rightHandSide);
+    }
+    return *this;
 }
 
 bool isGreaterThan0(int num, int, int)

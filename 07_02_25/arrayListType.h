@@ -111,6 +111,7 @@ public:
     virtual ~arrayListType();
     // Destructor
     // Deallocate the memory occupied by the array.
+    const arrayListType& operator=(const arrayListType& rightHandList);
 
 protected:
     int *list;   // array to hold the list elements

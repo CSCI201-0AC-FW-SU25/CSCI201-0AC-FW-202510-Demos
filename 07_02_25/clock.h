@@ -41,6 +41,7 @@ public:
     virtual void setHour(int hour) = 0;
     static timeType formats[2];
     static std::string formatToStr[2];
+    virtual clockType *makeCopy() = 0;
 
 protected:
     int hr;
@@ -57,6 +58,7 @@ public:
     void setHour(int hour);
     void setTime(int h, int m, int s);
     bool operator==(const twentyFourHrClock &rightHandClock);
+    clockType *makeCopy();
 };
 
 class twelveHrClock : public clockType
@@ -76,6 +78,8 @@ public:
     void setTime(int h, int m, int s);
     friend void myFunc(const twelveHrClock &theClock);
     twelveHrClock operator+(int rightHandSide) const;
+    const twelveHrClock &operator=(const twelveHrClock &rightHandClock);
+    clockType *makeCopy();
 
 private:
     partType partOfDay;

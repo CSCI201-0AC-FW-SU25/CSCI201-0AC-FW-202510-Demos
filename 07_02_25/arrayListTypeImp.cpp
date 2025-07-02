@@ -94,6 +94,25 @@ arrayListType::~arrayListType()
     delete[] list;
 } // end destructor
 
+const arrayListType &arrayListType::operator=(const arrayListType &rightHandList)
+{
+    if (this == &rightHandList) // avoid self copy
+    {
+        return *this;
+    }
+    if (this->list != nullptr)
+    {
+        delete[] this->list;
+    }
+    maxSize = rightHandList.maxSize;
+    length = rightHandList.length;
+
+    list = new int[maxSize]; // create the array
+
+    for (int j = 0; j < length; j++) // copy rightHandList
+        list[j] = rightHandList.list[j];
+}
+
 arrayListType::arrayListType(const arrayListType &otherList)
 {
     maxSize = otherList.maxSize;

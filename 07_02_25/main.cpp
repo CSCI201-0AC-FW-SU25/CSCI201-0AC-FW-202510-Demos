@@ -14,6 +14,8 @@ bool codeGradeLoopFix();
 
 int main()
 {
+    int x = 7;
+    int y = (x = 5);
     twelveHrClock clock(12, 59, 59, partType::PM);
     twelveHrClock clock2 = clock + 1;
 

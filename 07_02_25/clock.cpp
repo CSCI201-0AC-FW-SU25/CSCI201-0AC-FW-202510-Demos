@@ -225,6 +225,11 @@ bool twentyFourHrClock::operator==(const twentyFourHrClock &rightHandClock)
     return this->hr == rightHandClock.hr && this->min == rightHandClock.min && this->sec == rightHandClock.sec;
 }
 
+clockType *twentyFourHrClock::makeCopy()
+{
+    return new twentyFourHrClock(*this);
+}
+
 twelveHrClock twelveHrClock::operator+(int secondsToAdd) const
 {
     twelveHrClock tempClock = *this;
@@ -233,4 +238,18 @@ twelveHrClock twelveHrClock::operator+(int secondsToAdd) const
         tempClock.incrementSeconds();
     }
     return tempClock;
+}
+
+const twelveHrClock &twelveHrClock::operator=(const twelveHrClock &rightHandClock)
+{
+    this->hr = rightHandClock.hr;
+    this->min = rightHandClock.min;
+    this->sec = rightHandClock.sec;
+    this->partOfDay = rightHandClock.partOfDay;
+    return *this;
+}
+
+clockType *twelveHrClock::makeCopy()
+{
+    return new twelveHrClock(*this);
 }

@@ -15,8 +15,9 @@ public:
     std::string getTitle();
     int getRuntime();
     std::string getRating();
-    void addTime(clockType timeAdd);
+    void addTime(clockType *timeAdd);
     ~MovieTimes();
+    const MovieTimes &operator=(const MovieTimes &rightHandSide);
 
 private:
     clockType **times;
