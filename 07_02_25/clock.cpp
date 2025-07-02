@@ -3,9 +3,27 @@
 timeType clockType::formats[2] = {TWELVE, TWENTYFOUR};
 std::string clockType::formatToStr[2] = {"12 hour clock", "24 hour clock"};
 
+std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint)
+{
+    outputStream << clockToPrint.toString();
+    return outputStream;
+}
+
+std::istream &operator>>(std::istream &inputStream, clockType &clockToFill)
+{
+    inputStream >> clockToFill.hr >> clockToFill.min >> clockToFill.sec;
+    return inputStream;
+}
+
 void myFunc(const twelveHrClock &theClock)
 {
     int hour = theClock.hr;
+}
+
+std::ostream &operator<<(std::ostream &outputStream, const twelveHrClock &clockToCopy)
+{
+    outputStream << clockToCopy.toString();
+    return outputStream;
 }
 
 twentyFourHrClock::twentyFourHrClock(int h, int m, int s)

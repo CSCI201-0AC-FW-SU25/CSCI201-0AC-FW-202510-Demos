@@ -2,6 +2,7 @@
 #include <limits>
 #include <cctype>
 #include "clock.h"
+#include "movieTimes.h"
 
 clockType *makeClock();
 void resetStream();
@@ -18,6 +19,10 @@ int main()
     int y = (x = 5);
     twelveHrClock clock(12, 59, 59, partType::PM);
     twelveHrClock clock2 = clock + 1;
+    MovieTimes dragon("How to Train Your Dragon", 125, "PG");
+
+    dragon.enterTimes();
+    std::cout << dragon.tostring();
 
     return 0;
 }
@@ -113,7 +118,7 @@ void resetStream()
 void clockTick(clockType &clockToTick)
 {
     clockToTick.incrementHours();
-    std::cout << clockToTick.toString() << std::endl;
+    std::cout << clockToTick << std::endl;
 }
 
 bool validPositiveInt(int num)
@@ -151,4 +156,47 @@ bool codeGradeLoopFix()
         return true;
     }
     return false;
+}
+
+int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int valid1, int valid2)
+{
+    int num;
+    std::cout << prompt;
+    std::cin >> num;
+    while (!std::cin || !valid(num, valid1, valid2))
+    {
+        if (!std::cin)
+        {
+            resetStream();
+        }
+        else
+        {
+            std::cout << err << std::endl;
+        }
+        std::cout << prompt;
+        std::cin >> num;
+    }
+    return num;
+}
+
+bool isAorB(int num, int a, int b)
+{
+    if (num == a)
+        return true;
+    if (num == b)
+        return true;
+
+    return false;
+}
+
+bool isInRange(int num, int low, int high)
+{
+
+    return low <= num && num <= high;
+}
+
+void addTimeToMovie(MovieTimes &theMovie)
+{
+    // clockType c(TWELVE);
+    // theMovie.addTime(c);
 }

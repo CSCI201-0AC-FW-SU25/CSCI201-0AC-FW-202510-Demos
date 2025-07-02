@@ -45,7 +45,7 @@ std::string MovieTimes::tostring()
     out << "| " << std::setw(40) << this->title << " | " << std::setw(5) << this->rating << " | " << std::setw(3) << this->runtime << " mins | ";
     for (int i = 0; i < numTimes; i++)
     {
-        // out << times[i]->printTime() << " ";
+        out << *times[i] << " ";
     }
     return out.str();
 }

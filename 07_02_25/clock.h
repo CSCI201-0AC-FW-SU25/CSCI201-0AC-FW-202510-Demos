@@ -25,7 +25,7 @@ public:
     void getTime(int &hour, int &minute, int &second) const;
     bool validMin() const;
     bool validSec() const;
-    virtual std::string toString() const;
+
     void incrementSeconds();
     void incrementMinutes();
     void setMinute(int minute);
@@ -42,11 +42,14 @@ public:
     static timeType formats[2];
     static std::string formatToStr[2];
     virtual clockType *makeCopy() = 0;
+    friend std::ostream &operator<<(std::ostream &outputStream, const clockType &);
+    friend std::istream &operator>>(std::istream &inputStream, clockType &clockToFill);
 
 protected:
     int hr;
     int min;
     int sec;
+    virtual std::string toString() const;
 };
 class twentyFourHrClock : public clockType
 {
@@ -68,7 +71,7 @@ public:
     bool validHr() const;
     void invalidHr();
     void setPartOfDay(partType part);
-    std::string toString() const;
+
     void setHour(int h);
     void incrementHours();
     // std::string getPartOfDay();
@@ -80,8 +83,10 @@ public:
     twelveHrClock operator+(int rightHandSide) const;
     const twelveHrClock &operator=(const twelveHrClock &rightHandClock);
     clockType *makeCopy();
+    friend std::ostream &operator<<(std::ostream &outputStream, const twelveHrClock &clockToCopy);
 
 private:
     partType partOfDay;
+    std::string toString() const;
 };
 #endif
