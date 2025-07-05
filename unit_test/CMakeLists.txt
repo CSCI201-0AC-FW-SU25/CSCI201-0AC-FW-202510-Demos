@@ -7,7 +7,7 @@ project(Test)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_library(student SHARED ../.cpp) #add the name of your cpp file in front of the .cpp and after the / on this line
+add_library(student SHARED ../07_02_25/clock.cpp) #add the name of your cpp file in front of the .cpp and after the / on this line
 #if you are testing more than 1 class copy the line above and change student to another name
  
 # Link runTests with what we want to test and the GTest and pthread library

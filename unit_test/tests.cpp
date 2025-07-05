@@ -2,11 +2,16 @@
 #include <gmock/gmock.h>
 #include <regex>
 #include <cmath>
-// include the header files for your classes
+#include "../07_02_25/clock.h"
 using namespace std;
 
-TEST(testSuite, firstTest)
+TEST(twentyFourHrClockTest, equality)
 {
+	twentyFourHrClock c1(13, 0, 0);
+	twelveHrClock c2(1, 0, 0, partType::PM);
+	twentyFourHrClock c3(13, 3, 3);
+	EXPECT_TRUE(c1 == c2);
+	EXPECT_FALSE(c1 == c3);
 	// your test code goes here.
 	// see https://google.github.io/googletest/ for more information on writing a unit test
 	// assertions reference https://google.github.io/googletest/reference/assertions.html

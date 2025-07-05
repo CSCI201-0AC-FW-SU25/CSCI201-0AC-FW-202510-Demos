@@ -11,12 +11,13 @@ bool validPositiveInt(int num);
 int inputPositiveInt(std::string prompt, std::string err);
 bool codeGradeLoopFix();
 
-// lecture activity fill in input.txt with input that will create 20 clocks. Randomize between 12 and 24 hour clocks and randomize times.
+// lecture activity in clock.h
 
 int main()
 {
     int x = 7;
-    int y = (x = 5);
+
+    int y = x++;
     twelveHrClock clock(12, 59, 59, partType::PM);
     twelveHrClock clock2 = clock + 1;
     MovieTimes dragon("How to Train Your Dragon", 125, "PG");

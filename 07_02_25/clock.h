@@ -17,6 +17,8 @@ enum timeType
 };
 const partType parts[2] = {partType::AM, partType::PM};
 const std::string partToStr[2] = {"AM", "PM"};
+int convertTo24Hr(int hr, partType part);
+void convertTo12Hr(int hr, int &convertHr, partType &part);
 class clockType
 {
 public:
@@ -44,6 +46,8 @@ public:
     virtual clockType *makeCopy() = 0;
     friend std::ostream &operator<<(std::ostream &outputStream, const clockType &);
     friend std::istream &operator>>(std::istream &inputStream, clockType &clockToFill);
+    const clockType &operator++();
+    friend const clockType &operator++(clockType &, int);
 
 protected:
     int hr;
@@ -51,16 +55,30 @@ protected:
     int sec;
     virtual std::string toString() const;
 };
+class twelveHrClock;
 class twentyFourHrClock : public clockType
 {
 public:
     twentyFourHrClock(int h = 0, int m = 0, int s = 0);
+    twentyFourHrClock(const twelveHrClock &);
+    const twentyFourHrClock &operator=(const twelveHrClock &rightClock);
     bool validHr() const;
     void invalidHr();
     void incrementHours();
     void setHour(int hour);
     void setTime(int h, int m, int s);
-    bool operator==(const twentyFourHrClock &rightHandClock);
+    bool operator==(const twentyFourHrClock &rightHandClock) const;
+    bool operator==(const twelveHrClock &right) const;
+    bool operator!=(const twentyFourHrClock &right) const;
+    bool operator!=(const twelveHrClock &right) const;
+    bool operator>(const twentyFourHrClock &right) const;
+    bool operator>(const twelveHrClock &right) const;
+    bool operator>=(const twentyFourHrClock &right) const;
+    friend bool operator<(const twentyFourHrClock &left, const twentyFourHrClock &right);
+    friend bool operator<(const twentyFourHrClock &left, const twelveHrClock &right);
+    friend bool operator<(const twelveHrClock &left, const twentyFourHrClock &right);
+    twentyFourHrClock operator+(int rightHandSide) const;
+    friend twentyFourHrClock operator+(int leftSecondsToAdd, const twentyFourHrClock &rightHandClock);
     clockType *makeCopy();
 };
 
@@ -81,9 +99,14 @@ public:
     void setTime(int h, int m, int s);
     friend void myFunc(const twelveHrClock &theClock);
     twelveHrClock operator+(int rightHandSide) const;
+    friend twelveHrClock operator+(int leftSecondsToAdd, const twelveHrClock &rightHandClock);
     const twelveHrClock &operator=(const twelveHrClock &rightHandClock);
     clockType *makeCopy();
     friend std::ostream &operator<<(std::ostream &outputStream, const twelveHrClock &clockToCopy);
+    friend bool operator<(const twentyFourHrClock &left, const twelveHrClock &right);
+    friend bool operator<(const twelveHrClock &left, const twentyFourHrClock &right);
+    // lecture activity
+    // create overloaded >, ==, !=, >=, <= operators for the twelveHrClockClass
 
 private:
     partType partOfDay;

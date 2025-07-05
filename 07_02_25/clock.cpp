@@ -3,6 +3,38 @@
 timeType clockType::formats[2] = {TWELVE, TWENTYFOUR};
 std::string clockType::formatToStr[2] = {"12 hour clock", "24 hour clock"};
 
+int convertTo24Hr(int hr, partType part)
+{
+    int standardHour = hr;
+
+    if (standardHour == 12)
+    {
+        standardHour = 0;
+    }
+    if (part == partType::PM)
+    {
+        standardHour = standardHour + 12;
+    }
+    return standardHour;
+}
+
+void convertTo12Hr(int hr, int &convertHr, partType &part)
+{
+    convertHr = hr;
+    if (hr >= 12)
+    {
+        part = partType::PM;
+        if (hr != 12)
+        {
+            convertHr -= 12;
+        }
+    }
+    else
+    {
+        part = partType::AM;
+    }
+}
+
 std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint)
 {
     outputStream << clockToPrint.toString();
@@ -15,9 +47,63 @@ std::istream &operator>>(std::istream &inputStream, clockType &clockToFill)
     return inputStream;
 }
 
+const clockType &operator++(clockType &c, int)
+{
+    clockType *temp = c.makeCopy();
+    c.incrementSeconds();
+    return *temp;
+}
+
+bool operator<(const twentyFourHrClock &left, const twentyFourHrClock &right)
+{
+    bool lessThan = false;
+    if (left.hr > right.hr)
+    {
+        lessThan = true;
+    }
+    else if (left.hr == right.hr)
+    {
+        if (left.min > right.min)
+        {
+            lessThan = true;
+        }
+        else if (left.min == right.min)
+        {
+            if (left.sec > right.sec)
+            {
+                lessThan = true;
+            }
+        }
+    }
+
+    return lessThan;
+}
+
+bool operator<(const twentyFourHrClock &left, const twelveHrClock &right)
+{
+    twentyFourHrClock temp(right);
+    return left < temp;
+}
+
+bool operator<(const twelveHrClock &left, const twentyFourHrClock &right)
+{
+
+    return right > left;
+}
+
+twentyFourHrClock operator+(int leftSecondsToAdd, const twentyFourHrClock &rightHandClock)
+{
+    return rightHandClock + leftSecondsToAdd;
+}
+
 void myFunc(const twelveHrClock &theClock)
 {
     int hour = theClock.hr;
+}
+
+twelveHrClock operator+(int leftSecondsToAdd, const twelveHrClock &rightHandClock)
+{
+    return rightHandClock + leftSecondsToAdd;
 }
 
 std::ostream &operator<<(std::ostream &outputStream, const twelveHrClock &clockToCopy)
@@ -238,9 +324,61 @@ void twelveHrClock::setTime(int hour, int minute, int second)
     setSecond(second);
 }
 
-bool twentyFourHrClock::operator==(const twentyFourHrClock &rightHandClock)
+bool twentyFourHrClock::operator==(const twentyFourHrClock &rightHandClock) const
 {
     return this->hr == rightHandClock.hr && this->min == rightHandClock.min && this->sec == rightHandClock.sec;
+}
+
+bool twentyFourHrClock::operator==(const twelveHrClock &right) const
+{
+    twentyFourHrClock temp(right);
+    return *this == temp;
+}
+
+bool twentyFourHrClock::operator!=(const twentyFourHrClock &right) const
+{
+    return !(*this == right);
+}
+
+bool twentyFourHrClock::operator!=(const twelveHrClock &right) const
+{
+    return !(*this == right);
+}
+
+bool twentyFourHrClock::operator>(const twentyFourHrClock &right) const
+{
+    bool greaterThan = false;
+    if (this->hr > right.hr)
+    {
+        greaterThan = true;
+    }
+    else if (this->hr == right.hr)
+    {
+        if (this->min > right.min)
+        {
+            greaterThan = true;
+        }
+        else if (this->min == right.min)
+        {
+            if (this->sec > right.sec)
+            {
+                greaterThan = true;
+            }
+        }
+    }
+
+    return greaterThan;
+}
+
+bool twentyFourHrClock::operator>(const twelveHrClock &right) const
+{
+    twentyFourHrClock temp(right);
+    return *this > temp;
+}
+
+bool twentyFourHrClock::operator>=(const twentyFourHrClock &right) const
+{
+    return (*this > right) || (*this == right);
 }
 
 clockType *twentyFourHrClock::makeCopy()
@@ -251,6 +389,16 @@ clockType *twentyFourHrClock::makeCopy()
 twelveHrClock twelveHrClock::operator+(int secondsToAdd) const
 {
     twelveHrClock tempClock = *this;
+    for (int i = 0; i < secondsToAdd; i++)
+    {
+        tempClock.incrementSeconds();
+    }
+    return tempClock;
+}
+
+twentyFourHrClock twentyFourHrClock::operator+(int secondsToAdd) const
+{
+    twentyFourHrClock tempClock = *this;
     for (int i = 0; i < secondsToAdd; i++)
     {
         tempClock.incrementSeconds();
@@ -270,4 +418,25 @@ const twelveHrClock &twelveHrClock::operator=(const twelveHrClock &rightHandCloc
 clockType *twelveHrClock::makeCopy()
 {
     return new twelveHrClock(*this);
+}
+
+twentyFourHrClock::twentyFourHrClock(const twelveHrClock &clockToConvert)
+{
+    this->hr = convertTo24Hr(clockToConvert.getHour(), clockToConvert.getPart());
+    this->min = clockToConvert.getMinute();
+    this->sec = clockToConvert.getSecond();
+}
+
+const twentyFourHrClock &twentyFourHrClock::operator=(const twelveHrClock &rightClock)
+{
+    this->hr = convertTo24Hr(rightClock.getHour(), rightClock.getPart());
+    this->min = rightClock.getMinute();
+    this->sec = rightClock.getSecond();
+    return *this;
+}
+
+const clockType &clockType::operator++()
+{
+    this->incrementSeconds();
+    return *this;
 }

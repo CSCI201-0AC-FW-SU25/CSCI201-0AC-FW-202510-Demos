@@ -56,5 +56,6 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/avenable11/CSCI201-0AC-FW-202510-Demos/unit_test"
 }
