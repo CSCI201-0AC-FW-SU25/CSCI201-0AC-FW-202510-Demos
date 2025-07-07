@@ -7,6 +7,13 @@ const std::map<std::string, drink::baseType> drink::strToBase = {{"COFFEE", COFF
                                                                  {"TEA", TEA},
                                                                  {"CREAM", CREAM}};
 
+const std::map<drink::tempType, std::string> drink::tempToStr = {{HOT, "Hot"},
+                                                                 {ICE, "Iced"},
+                                                                 {BLEND, "Blended"}};
+const std::map<std::string, drink::tempType> drink::strToTemp = {{"hot", HOT},
+                                                                 {"iced", ICE},
+                                                                 {"blended", BLEND}};
+
 std::string drink::getBaseStr() const
 {
     return baseToStr.at(base);
@@ -28,7 +35,8 @@ drink::drink(baseType b, tempType t, sizeType s, std::string d, std::string f)
 
 std::string drink::getSize() const
 {
-    return sizeToStr.at(size);
+    // return sizeToStr.at(size);
+    return "Large";
 }
 std::string drink::getDairy() const
 {
@@ -93,7 +101,7 @@ double drink::getPrice() const
         price += .5;
     }
     std::string dairyCpy = dairy;
-
+    std::transform(dairyCpy.begin(), dairyCpy.end(), dairyCpy.begin(), ::tolower);
     if (dairyCpy == "whole milk")
     {
         price += .5;
@@ -130,6 +138,16 @@ void drink::setBase(baseType b)
     }
 }
 
+void drink::setBase(std::string baseStr)
+{
+    std::string baseCpy = baseStr;
+    std::transform(baseCpy.begin(), baseCpy.end(), baseCpy.begin(), ::toupper);
+    if (strToBase.count(baseCpy))
+    {
+        base = strToBase.at(baseCpy);
+    }
+}
+
 void drink::setTemperature(tempType t)
 {
     if (tempToStr.count(t) == 1)
@@ -142,6 +160,15 @@ void drink::setTemperature(tempType t)
     }
 }
 
+void drink::setTemperature(std::string tempStr)
+{
+    std::transform(tempStr.begin(), tempStr.end(), tempStr.begin(), ::tolower);
+    if (strToTemp.count(tempStr))
+    {
+        temperature = strToTemp.at(tempStr);
+    }
+}
+
 void drink::setDairy(std::string d)
 {
     dairy = d;
@@ -149,7 +176,7 @@ void drink::setDairy(std::string d)
 
 void drink::setSize(sizeType s)
 {
-    if (sizeToStr.count(s) == 1)
+    if (true) // sizeToStr.count(s) == 1)
     {
         size = s;
     }

@@ -54,7 +54,9 @@ public:
     std::string getFlavor() const;
     double getPrice() const;
     void setBase(baseType);
+    void setBase(std::string);
     void setTemperature(tempType);
+    void setTemperature(std::string);
     void setSize(sizeType);
     void setDairy(std::string);
     void setFlavor(std::string);
