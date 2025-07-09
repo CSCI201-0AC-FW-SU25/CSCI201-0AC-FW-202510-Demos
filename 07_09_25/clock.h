@@ -5,6 +5,8 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
+#include <map>
+#include "clockExcept.h"
 
 enum class partType
 {
@@ -49,6 +51,7 @@ public:
     friend std::istream &operator>>(std::istream &inputStream, clockType &clockToFill);
     const clockType &operator++();
     friend const clockType &operator++(clockType &, int);
+    static std::map<int, partType> intToPartType;
 
 protected:
     int hr;

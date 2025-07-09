@@ -3,6 +3,8 @@
 timeType clockType::formats[2] = {TWELVE, TWENTYFOUR};
 std::string clockType::formatToStr[2] = {"12 hour clock", "24 hour clock"};
 
+std::map<int, partType> clockType::intToPartType = {{0, partType::AM}, {1, partType::PM}};
+
 int convertTo24Hr(int hr, partType part)
 {
     int standardHour = hr;
@@ -177,7 +179,7 @@ void twentyFourHrClock::setHour(int hour)
     }
     else
     {
-        throw std::invalid_argument(std::to_string(hour) + " is not a valid hour.");
+        throw invalid_hour(hour);
     }
 }
 
@@ -281,13 +283,13 @@ void twelveHrClock::setPartOfDay(partType p)
 
 void twelveHrClock::setHour(int hour)
 {
-    if (hr >= 1 && hr <= 12)
+    if (hour >= 1 && hour <= 12)
     {
         hr = hour;
     }
     else
     {
-        throw hour;
+        throw invalid_hour(hour);
     }
 }
 
