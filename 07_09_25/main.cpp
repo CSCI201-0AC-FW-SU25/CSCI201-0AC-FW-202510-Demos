@@ -7,6 +7,8 @@
 // create invalid_minute and invalid_second in clockExcept.h and clockExcept.cpp
 // update throws in clock.cpp to use new exceptions
 // update main to catch new exceptions
+void resetStream();
+double inputNum(std::string prompt, std::string err, double high, double low);
 
 int main()
 {
@@ -101,5 +103,77 @@ int main()
         delete timeClockIn[i];
     }
 
+    bool validNum = false;
+    double num;
+    while (!validNum)
+    {
+        try
+        {
+            num = inputNum("Enter a floating point number between 1 and 100. ", "That is not a number between 1 and 100.", 100, 1);
+            validNum = true;
+        }
+        catch (const std::exception &e)
+        {
+            if (!std::cin)
+            {
+                resetStream();
+            }
+            std::cerr << e.what() << '\n';
+        }
+    }
+
     return 0;
+}
+
+void resetStream()
+{
+    std::cout << "You have entered non-numeric data! Please try again!" << std::endl;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+/* double inputNum(std::string prompt, std::string err, double high, double low)
+{
+    double num;
+    std::cout << prompt;
+    std::cin >> num;
+    std::cout << std::endl;
+    try
+    {
+        if (!std::cin || num < low || num > high)
+        {
+            throw std::runtime_error("Input Error");
+            /* if (!std::cin)
+            {
+                resetStream();
+            }
+        }
+    }
+    catch (std::runtime_error e)
+    {
+        if (!std::cin)
+        {
+            resetStream();
+        }
+        else
+        {
+            std::cout << err << std::endl;
+        }
+        return inputNum(prompt, err, high, low);
+    }
+    return num;
+} */
+
+double inputNum(std::string prompt, std::string err, double high, double low)
+{
+    double num;
+    std::cout << prompt;
+    std::cin >> num;
+    std::cout << std::endl;
+    if (!std::cin || num < low || num > high)
+    {
+        throw std::runtime_error(err);
+    }
+
+    return num;
 }
