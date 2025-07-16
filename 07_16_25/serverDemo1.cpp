@@ -12,14 +12,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <bits/stdc++.h>
-#include "suit.h"
-
-// lecture activity part b change the suit colors
-// https://en.wikipedia.org/wiki/ANSI_escape_code
 
 const int BACKLOG = 10;
-
-std::string getFormatStr(suitType suit);
 
 int main(int argc, char *arv[])
 {
@@ -62,7 +56,7 @@ int main(int argc, char *arv[])
         {
             throw std::invalid_argument("Server is unable to listen");
         }
-        // std::cout << "server: waiting for connections..." << std::endl;
+        std::cout << "server: waiting for connections..." << std::endl;
         while (true)
         {
             sin_size = sizeof(their_addr);
@@ -72,20 +66,16 @@ int main(int argc, char *arv[])
                 throw std::invalid_argument("Error accpeting client");
             }
             inet_ntop(their_addr.ss_family, (struct sockaddr_in *)&their_addr, s, sizeof(s));
-            // std::cout << "server: got connection from " << s << std::endl;
-            std::cout << "Request Received" << std::endl;
+            std::cout << "server: got connection from " << s << std::endl;
             uint32_t val;
             rv = recv(clientfd, &val, sizeof(val), 0);
             if (rv == sizeof(val))
             {
                 val = ntohl(val);
                 std::cout << "receiving: " << val << std::endl;
-                suitType suit = static_cast<suitType>(val);
-                std::string response = getFormatStr(suit);
-
-                val = htonl(response.length());
+                val++;
+                val = htonl(val);
                 rv = send(clientfd, &val, sizeof(val), 0);
-                rv = send(clientfd, response.c_str(), response.length(), 0);
             }
             close(clientfd);
         }
@@ -100,14 +90,4 @@ int main(int argc, char *arv[])
     }
 
     return 0;
-}
-
-std::string getFormatStr(suitType suit)
-{
-    static std::map<suitType, std::string> suitColors = {{suitType::HEARTS, "\033[1m\033[107;31m"},
-                                                         {suitType::DIAMONDS, "\033[1m\033[107;31m"},
-                                                         {suitType::CLUBS, "\033[1m\033[107;30m"},
-                                                         {suitType::SPADES, "\033[1m\033[107;30m"}};
-
-    return suitColors[suit];
 }
