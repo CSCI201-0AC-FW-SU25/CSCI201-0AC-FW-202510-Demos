@@ -1,0 +1,12 @@
+LAYOUT(MainAppWindow, 720, 420)
+END_LAYOUT
+
+LAYOUT(DrinksWindowLayout, 720, 420)
+	ITEM(Upp::Switch, base, SetLabel(t_("Coffee\nTea\nCream")).HSizePosZ(148, 512).VSizePosZ(68, 300))
+	ITEM(Upp::Label, baseLbl, SetLabel(t_("Drink Base:")).HSizePosZ(12, 604).VSizePosZ(84, 316))
+	ITEM(Upp::Switch, temp, SetLabel(t_("Hot\nIced\nBlended")).HSizePosZ(148, 512).VSizePosZ(124, 244))
+	ITEM(Upp::Label, tempLbl, SetLabel(t_("Drink Temperature:")).HSizePosZ(12, 604).VSizePosZ(140, 260))
+	ITEM(Upp::Switch, size, SetLabel(t_("Small\nMedium\nLarge")).LeftPosZ(148, 60).TopPosZ(12, 52))
+	ITEM(Upp::Label, sizeLbl, SetLabel(t_("Drink Size:")).LeftPosZ(12, 104).TopPosZ(28, 20))
+END_LAYOUT
+
