@@ -36,11 +36,14 @@ enum flavType
 	PEACH,
 	PEPPERMINT,
 	RASPBERRY,
-	STRAWBERRY
+	STRAWBERRY,
+	MOCHA,
+	HAZELNUT
+
 
 };
 const int NUM_DAIRY = 6;
-const int NUM_FLAV = 10;
+const int NUM_FLAV = 12;
 const std::string baseStr[] = {"Coffee", "Tea", "Cream"};
 const std::string tempStr[] = {"Hot", "Iced", "Blended"};
 const std::string sizeStr[] = {"Small", "Medium", "Large"};
@@ -56,7 +59,9 @@ const std::string flavStr[] = {"Almond",
 							   "Peach",
 							   "Peppermint",
 							   "Raspberry",
-							   "Strawberry"};
+							   "Strawberry",
+							   "Mocha",
+							   "Hazelnut"};
 const flavType flavs[] = {
 	ALMOND,
 	APPLE,
@@ -67,7 +72,9 @@ const flavType flavs[] = {
 	PEACH,
 	PEPPERMINT,
 	RASPBERRY,
-	STRAWBERRY
+	STRAWBERRY,
+	MOCHA,
+	HAZELNUT
 
 };
 

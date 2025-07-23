@@ -9,7 +9,7 @@
 
 using namespace Upp;
 
-class DrinksWindow : public WithMainAppWindow<TopWindow> 
+class DrinksWindow : public WithMainAppWindow<TopWindow>
 {
 public:
 	DrinksWindow();
@@ -17,6 +17,7 @@ public:
 private:
 	AutoScroller scroller;
 	WithDrinksWindowLayout<ParentCtrl> scroller_view;
+	Option flavor[NUM_FLAV];
 };
 
 #endif
