@@ -27,18 +27,18 @@ enum sizeType
 
 enum flavType
 {
-	ALMOND,
+	HAZELNUT,
 	APPLE,
-	BLUEBERRY,
 	BUTTERPECAN,
+	BLUEBERRY,
 	CARAMEL,
-	FRENCHVANILLA,
 	PEACH,
-	PEPPERMINT,
-	RASPBERRY,
-	STRAWBERRY,
 	MOCHA,
-	HAZELNUT
+	RASPBERRY,
+	FRENCHVANILLA,
+	STRAWBERRY,
+	PEPPERMINT,
+	MANGO
 
 
 };
@@ -50,31 +50,32 @@ const std::string sizeStr[] = {"Small", "Medium", "Large"};
 const baseType bases[] = {COFFEE, TEA, CREAM};
 const tempType temps[] = {HOT, ICE, BLEND};
 const sizeType sizes[] = {SMALL, MED, LARGE};
-const std::string flavStr[] = {"Almond",
+const std::string flavStr[] = {"Hazelnut",
 							   "Apple",
-							   "Blueberry",
 							   "Butter Pecan",
+							   "Blueberry",
 							   "Caramel",
-							   "French Vanilla",
 							   "Peach",
-							   "Peppermint",
-							   "Raspberry",
-							   "Strawberry",
 							   "Mocha",
-							   "Hazelnut"};
+							   "Raspberry",
+							   "French Vanilla",
+							   "Strawberry",
+							   "Peppermint",
+							   "Mango"
+							   };
 const flavType flavs[] = {
-	ALMOND,
+	HAZELNUT,
 	APPLE,
-	BLUEBERRY,
 	BUTTERPECAN,
+	BLUEBERRY,
 	CARAMEL,
-	FRENCHVANILLA,
 	PEACH,
-	PEPPERMINT,
-	RASPBERRY,
-	STRAWBERRY,
 	MOCHA,
-	HAZELNUT
+	RASPBERRY,
+	FRENCHVANILLA,
+	STRAWBERRY,
+	PEPPERMINT,
+	MANGO
 
 };
 
