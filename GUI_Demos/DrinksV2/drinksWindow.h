@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 
 using namespace Upp;
 
@@ -18,6 +19,9 @@ class DrinksWindow : public WithMainAppWindow<TopWindow>
 public:
 	DrinksWindow();
 	void checkPrice();
+	void handleFlavor(int index);
+	void saveOrder();
+	
 
 private:
 	AutoScroller scroller;

@@ -12,10 +12,13 @@ DrinksWindow::DrinksWindow()
 	scroller_view.temp = -1;
 	scroller_view.size = -1;
 	
+	writeBtn.SetLabel("Complete Order");
+	
 	for(int i = 0; i < NUM_DAIRY; i++)
 	{
 		scroller_view.dairy.Add(dairyStr[i]);
 	}
+	scroller_view.dairy.GoBegin();
 	
 	int optionSize = 100;
 	int checkDist = 20;
@@ -28,6 +31,11 @@ DrinksWindow::DrinksWindow()
 		{
 			checkCount++;
 		}
+		
+		flavor[i] << [&, this, i]
+		{
+			handleFlavor(i);
+		};
 	}
 	
 	scroller_view.base << [&, this]
@@ -50,8 +58,57 @@ DrinksWindow::DrinksWindow()
 		d.setSize(s);
 		checkPrice();
 	};
+	scroller_view.dairy << [&, this]
+	{
+		d.setDairy(scroller_view.dairy.GetData().ToStd());
+		checkPrice();
+	};
+	scroller_view.addBtn << [&, this]
+	{
+		if(scroller_view.size.GetData() == -1)
+		{
+			ErrorOK("Please choose a size!");
+			//scroller_view.size.GotFocus();
+			return;
+		}
+		if(scroller_view.base.GetData() == -1)
+		{
+			ErrorOK("Please choose a drink base!");
+			return;
+		}
+		if(scroller_view.temp.GetData() == -1)
+		{
+			ErrorOK("Please choose a temperature!");
+			return;
+		}
+		order.push_back(d);
+		std::ostringstream drinkStr;
+		drinkStr << d << std::endl;
+		scroller_view.drinkList.Append(drinkStr.str());
+		
+		scroller_view.base = -1;
+		scroller_view.temp = -1;
+		scroller_view.size = -1;
+		d.setBase(CREAM);
+		d.setTemperature(HOT);
+		d.setSize(SMALL);
+		scroller_view.dairy.GoBegin();
+		d.setDairy("None");
+		d.removeAllFlavor();
+		for( int i = 0; i < NUM_FLAV; i++)
+		{
+			flavor[i] = 0;
+		}
+		scroller_view.price.SetData("");
+		scroller_view.writeBtnHolder.Add(writeBtn.HSizePosZ().VSizePosZ());
+		
+		
+	};
 	
-	
+	writeBtn << [&, this]
+	{
+		saveOrder();
+	};
 }
 
 void DrinksWindow::checkPrice()
@@ -64,4 +121,32 @@ void DrinksWindow::checkPrice()
 		priceStr << "$" << d.getPrice();
 		scroller_view.price.SetData(priceStr.str());
 	}
+}
+
+void DrinksWindow::handleFlavor(int index)
+{
+	if(flavor[index].Get())
+	{
+		d.addFlavor(flavs[index]);
+	}
+	else
+	{
+		d.removeFlavor(flavs[index]);
+	}
+	checkPrice();
+}
+
+void DrinksWindow::saveOrder()
+{
+	std::ofstream outFile("order.txt");
+	outFile << std::setprecision(2) << std::fixed << std::showpoint;
+	double total = 0;
+	for(int i = 0; i < order.size(); i++)
+	{
+		outFile << order[i] << std::endl;
+		total += order[i].getPrice();
+	}
+	outFile << "Total: $" << total;
+	outFile.close();
+	Close();
 }
