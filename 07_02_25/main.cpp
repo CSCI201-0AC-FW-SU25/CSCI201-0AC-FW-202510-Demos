@@ -13,8 +13,14 @@ bool codeGradeLoopFix();
 
 // lecture activity in clock.h
 
-//fall 25 add typeid from <typeinfo> into lecture to check the clock type before doing the == operator.
-
+// fall 25 add typeid from <typeinfo> into lecture to check the clock type before doing the == operator.
+/*void clockType::showClockType() const
+{
+    if (typeid(*this) == typeid(twelveHrClock))
+    {
+        std::cout << "12";
+    }
+}*/
 int main()
 {
     int x = 7;
